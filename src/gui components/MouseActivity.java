@@ -17,8 +17,10 @@ public class MouseActivity implements MouseListener, MouseMotionListener {
         int x = e.getX()/size; //we divide by size, because each cell is size large. This means the pixel we clicked on isn't exact, but we can find the cell that represents
         int y = e.getY()/size;
 
-        panel.board[x][y] = !panel.board[x][y]; //Switch the state of the cell dragged on
-        panel.repaint();
+        if(x < panel.board.length && x >= 0 && y < panel.board[0].length && y >=0) {
+            panel.board[x][y] = !panel.board[x][y]; //Switch the state of the cell dragged on
+            panel.repaint();
+        }
     }
 
     @Override
@@ -26,8 +28,10 @@ public class MouseActivity implements MouseListener, MouseMotionListener {
         int x = e.getX()/size;
         int y = e.getY()/size;
 
-        panel.board[x][y] = !panel.board[x][y]; //Switch the state of the cell clicked on
-        panel.repaint();
+        if(x < panel.board.length && x >= 0 && y < panel.board[0].length && y >=0) {
+            panel.board[x][y] = !panel.board[x][y]; //Switch the state of the cell dragged on
+            panel.repaint();
+        }
     }
 
     @Override
