@@ -1,13 +1,10 @@
-import buttons.PauseButton;
-import buttons.PlayButton;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.*;
 
 public class LowerPanel extends JPanel {
 
-    JButton pauseButton, playButton;
+    JButton pauseButton, playButton, clearButton;
 
     public LowerPanel(MainPanel mainPanel){
         setup(mainPanel);
@@ -17,8 +14,10 @@ public class LowerPanel extends JPanel {
         setBackground(Color.orange);
         pauseButton = new PauseButton("Pause", mainPanel);
         playButton = new PlayButton("Play", mainPanel);
+        clearButton = new ClearButton("Clear", mainPanel);
         add(playButton);
         add(pauseButton);
+        add(clearButton);
     }
 
 }

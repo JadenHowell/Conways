@@ -97,8 +97,14 @@ public class MainPanel extends JPanel implements ActionListener {
     public void pause(){
         isPaused = true;
     }
-    public void play(){
-        isPaused = false;
+    public void play(){ isPaused = false; }
+    public void clear(){
+        for(int i = 0; i < board.length; i ++){
+            for (int j = 0; j < board[i].length; j ++){
+                board[i][j] = false;
+            }
+        }
+        repaint();
     }
 
 }
