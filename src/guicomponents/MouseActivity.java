@@ -7,6 +7,8 @@ public class MouseActivity implements MouseListener, MouseMotionListener {
     MainPanel panel;
     int size;
     int latestX, latestY;
+    boolean toValue;
+    //TODO: make the mouse decide to make cells alive or dead based off the opposite value of originally clicked cell
 
     public MouseActivity(MainPanel panel){
         this.panel = panel;

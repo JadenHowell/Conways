@@ -1,10 +1,14 @@
+import com.sun.jdi.connect.Connector;
+
 import javax.swing.JPanel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Arrays;
 import javax.swing.Timer;
+import javax.xml.crypto.Data;
 
 public class MainPanel extends JPanel implements ActionListener {
 
@@ -15,7 +19,8 @@ public class MainPanel extends JPanel implements ActionListener {
     boolean justStarted = true;
     final int FRAMERATE = 100; //1000ms = 1sec
     int refresh = 0;
-    boolean isPaused = false;
+    boolean isPaused = false, tracking = true;
+    DataTracker tracker;
     MouseMotionListener mouse;
 
     private void setup(){
@@ -23,6 +28,7 @@ public class MainPanel extends JPanel implements ActionListener {
         setLayout(null);
         setBackground(Color.black);
         board = new boolean[rowWidth /size][colHeight/size];
+        tracker = DataTracker.getInstance();
 
         //These are to connect our mouseMotion/MouseListener to the panel, so we can react to mouse events
         mouse = new MouseActivity(this);
@@ -39,7 +45,7 @@ public class MainPanel extends JPanel implements ActionListener {
 
     public MainPanel(Dimension screenSize){
         rowWidth = (int)screenSize.getWidth();
-        colHeight = (int)screenSize.getHeight() - 200;
+        colHeight = (int)screenSize.getHeight() - 150;  //This sets the height of the game. It extends slightly lower than the bottom bar.
         setup();
     }
 
@@ -63,13 +69,7 @@ public class MainPanel extends JPanel implements ActionListener {
     }
 
     private void spawn(){
-        for(int i = 0; i < board.length; i ++){
-            for(int j = 0; j < board[i].length; j++){
-                if((int)(Math.random() * 100) % 8 == 0){ //This will randomly initialize about 1/8 to true to begin
-                    board[i][j] = true;
-                }
-            }
-        }
+        randomize();
         justStarted = false;
     }
 
@@ -87,6 +87,10 @@ public class MainPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(!isPaused) {
+            if(tracking){
+                tracker.addDataPoint(board);
+                //System.out.println("Tracked another point: " + tracker.chain.lastElement());
+            }
             board = Conway.updateGrid(board);
             refresh++;
             //System.out.println("Updated! Time #" + refresh);
@@ -100,11 +104,27 @@ public class MainPanel extends JPanel implements ActionListener {
     public void play(){ isPaused = false; }
     public void clear(){
         for(int i = 0; i < board.length; i ++){
-            for (int j = 0; j < board[i].length; j ++){
-                board[i][j] = false;
-            }
+            Arrays.fill(board[i], false);
         }
         repaint();
+    }
+
+    public void startTracking(){
+        tracker.resetData();
+        tracking = true;
+    }
+    public void endTracking(){tracking = false;}
+    public void continueTracking(){tracking = true;}
+    public void randomize(){
+        for(int i = 0; i < board.length; i ++){
+            for(int j = 0; j < board[i].length; j++){
+                if((int)(Math.random() * 100) % 8 == 0){ //This will randomly initialize about 1/8 to true to begin
+                    board[i][j] = true;
+                }else{
+                    board[i][j] = false;
+                }
+            }
+        }
     }
 
 }

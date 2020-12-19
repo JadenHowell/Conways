@@ -18,10 +18,12 @@ public class GUI {
         lowerPanel = new LowerPanel(mainPanel);
         //frame.add(lowerPanel, BorderLayout.SOUTH);
 
+        //Using a splitPane allows for dynamically sized panels, without messing around with ugly layouts. Ew.
         JSplitPane splitPane = new JSplitPane();
         frame.getContentPane().add(splitPane);
         splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-        splitPane.setDividerLocation((int)screenSize.getHeight()-200);
+        splitPane.setDividerSize(5);
+        splitPane.setDividerLocation((int)screenSize.getHeight()-200); //This and the following line make the bottom panel the correct size, and resize it well.
         splitPane.setResizeWeight(.9);
         splitPane.setTopComponent(mainPanel);
         splitPane.setBottomComponent(lowerPanel);
