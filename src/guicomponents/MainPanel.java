@@ -15,6 +15,7 @@ public class MainPanel extends JPanel implements ActionListener {
     boolean justStarted = true;
     final int FRAMERATE = 100; //1000ms = 1sec
     int refresh = 0;
+    boolean isPaused = false;
     MouseMotionListener mouse;
 
     private void setup(){
@@ -27,6 +28,7 @@ public class MainPanel extends JPanel implements ActionListener {
         mouse = new MouseActivity(this);
         addMouseListener((MouseListener) mouse);
         addMouseMotionListener(mouse);
+
 
         new Timer(FRAMERATE, this).start(); //This makes a timer that will call the ActionListener in 'this' every FRAMERATE ms
     }
@@ -84,9 +86,19 @@ public class MainPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        board = Conway.updateGrid(board);
-        refresh++;
-        //System.out.println("Updated! Time #" + refresh);
-        repaint();
+        if(!isPaused) {
+            board = Conway.updateGrid(board);
+            refresh++;
+            //System.out.println("Updated! Time #" + refresh);
+            repaint();
+        }
     }
+
+    public void pause(){
+        isPaused = true;
+    }
+    public void play(){
+        isPaused = false;
+    }
+
 }

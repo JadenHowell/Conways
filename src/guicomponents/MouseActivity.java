@@ -6,6 +6,7 @@ public class MouseActivity implements MouseListener, MouseMotionListener {
 
     MainPanel panel;
     int size;
+    int latestX, latestY;
 
     public MouseActivity(MainPanel panel){
         this.panel = panel;
@@ -17,6 +18,12 @@ public class MouseActivity implements MouseListener, MouseMotionListener {
         int x = e.getX()/size; //we divide by size, because each cell is size large. This means the pixel we clicked on isn't exact, but we can find the cell that represents
         int y = e.getY()/size;
 
+        if (latestX == x && latestY == y) //This should make sure you can't flicker one square by moving a fraction of a centimeter
+            return;
+
+        latestX = x;
+        latestY = y;
+
         if(x < panel.board.length && x >= 0 && y < panel.board[0].length && y >=0) {
             panel.board[x][y] = !panel.board[x][y]; //Switch the state of the cell dragged on
             panel.repaint();
@@ -27,6 +34,12 @@ public class MouseActivity implements MouseListener, MouseMotionListener {
     public void mousePressed(MouseEvent e) {
         int x = e.getX()/size;
         int y = e.getY()/size;
+
+        if (latestX == x && latestY == y) //This should make sure you can't flicker one square by moving a fraction of a centimeter
+            return;
+
+        latestX = x;
+        latestY = y;
 
         if(x < panel.board.length && x >= 0 && y < panel.board[0].length && y >=0) {
             panel.board[x][y] = !panel.board[x][y]; //Switch the state of the cell dragged on
@@ -41,7 +54,8 @@ public class MouseActivity implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        latestX = -1;
+        latestY = -1;
     }
 
     @Override
