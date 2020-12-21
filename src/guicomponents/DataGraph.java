@@ -10,11 +10,12 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.net.URL;
+import java.util.List;
 
 public class DataGraph extends JFrame{
 
@@ -31,22 +32,22 @@ public class DataGraph extends JFrame{
         chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         chartPanel.setBackground(Color.white);
         add(chartPanel);
-
+        URL iconURL = getClass().getResource("res/conwayIcon.png");
+        ImageIcon image = new ImageIcon(iconURL);
+        setIconImage(image.getImage());
         pack();
         setTitle("Line chart");
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     private XYDataset createDataset() {
 
-        var series = new XYSeries("2016");
-        series.add(18, 567);
-        series.add(20, 612);
-        series.add(25, 800);
-        series.add(30, 980);
-        series.add(40, 1410);
-        series.add(50, 2350);
+        var series = new XYSeries("Cells");
+        List<Integer> data = DataTracker.getInstance().getData();
+        for(int i = 0; i < data.size(); i ++){
+            series.add(i, data.get(i));
+        }
 
         var dataset = new XYSeriesCollection();
         dataset.addSeries(series);
@@ -57,9 +58,9 @@ public class DataGraph extends JFrame{
     private JFreeChart createChart(XYDataset dataset) {
 
         JFreeChart chart = ChartFactory.createXYLineChart(
-                "Average salary per age",
-                "Age",
-                "Salary (€)",
+                "Cells alive per iteration",
+                "Time",
+                "Num Cells",
                 dataset,
                 PlotOrientation.VERTICAL,
                 true,
@@ -84,7 +85,7 @@ public class DataGraph extends JFrame{
 
         chart.getLegend().setFrame(BlockBorder.NONE);
 
-        chart.setTitle(new TextTitle("Average Salary per Age",
+        chart.setTitle(new TextTitle("Number of Cells alive",
                         new Font("Serif", java.awt.Font.BOLD, 18)
                 )
         );

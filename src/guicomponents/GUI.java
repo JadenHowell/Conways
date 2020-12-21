@@ -23,7 +23,7 @@ public class GUI {
         frame.getContentPane().add(splitPane);
         splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
         splitPane.setDividerSize(5);
-        splitPane.setDividerLocation((int)screenSize.getHeight()-200); //This and the following line make the bottom panel the correct size, and resize it well.
+        splitPane.setDividerLocation((int)screenSize.getHeight()-210); //This and the following line make the bottom panel the correct size, and resize it well.
         splitPane.setResizeWeight(1.0);
         splitPane.setTopComponent(mainPanel);
         splitPane.setBottomComponent(lowerPanel);

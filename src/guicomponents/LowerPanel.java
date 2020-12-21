@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class LowerPanel extends JPanel {
 
-    JButton pauseButton, playButton, clearButton, randomButton, trackButton, endTrackButton,continueTrackButton;
+    JButton pauseButton, playButton, clearButton, randomButton, trackButton, endTrackButton,continueTrackButton, showDataButton;
     JPanel dataPair, flowPair, statePair;
     Color color = Color.orange;
 
@@ -21,14 +21,13 @@ public class LowerPanel extends JPanel {
         trackButton = new DataTrackButton("Start tracking", mainPanel);
         endTrackButton = new EndTrackButton("Stop tracking", mainPanel);
         continueTrackButton = new ContinueTrackButton("Continue tracking", mainPanel);
+        showDataButton = new ShowDataButton("Show data");
 
         JButton[] flows = new JButton[]{playButton, pauseButton};
-        JButton[] data = new JButton[]{trackButton, endTrackButton, continueTrackButton};
+        JButton[] data = new JButton[]{trackButton, endTrackButton, continueTrackButton, showDataButton};
         JButton[] state = new JButton[]{clearButton, randomButton};
 
         //TODO: Add button that takes the tracked data, presents a nice graph about it all
-
-
         flowPair = new StackedButtonPair(flows, color);
         dataPair = new StackedButtonPair(data, color);
         statePair = new StackedButtonPair(state, color);

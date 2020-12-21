@@ -35,4 +35,9 @@ public class DataTracker {
 
     public void resetData(){chain = new Vector<>(); }
 
+    public void showData(){
+        DataGraph graph = new DataGraph();
+        graph.setVisible(true);
+    }
+
 }
