@@ -8,7 +8,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Arrays;
 import javax.swing.Timer;
-import javax.xml.crypto.Data;
 
 public class MainPanel extends JPanel implements ActionListener {
 
