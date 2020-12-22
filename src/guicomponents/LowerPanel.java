@@ -27,7 +27,6 @@ public class LowerPanel extends JPanel {
         JButton[] data = new JButton[]{trackButton, endTrackButton, continueTrackButton, showDataButton};
         JButton[] state = new JButton[]{clearButton, randomButton};
 
-        //TODO: Add button that takes the tracked data, presents a nice graph about it all
         flowPair = new StackedButtonPair(flows, color);
         dataPair = new StackedButtonPair(data, color);
         statePair = new StackedButtonPair(state, color);

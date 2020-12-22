@@ -16,8 +16,8 @@ public class MainPanel extends JPanel implements ActionListener {
     int size = 10; //This determines how large each cell is
     boolean[][] board;
     boolean justStarted = true;
-    final int FRAMERATE = 100; //1000ms = 1sec
-    int refresh = 0;
+    final static int FRAMERATE = 100; //1000ms = 1sec
+    int iteration = 0;
     boolean isPaused = false, tracking = true;
     DataTracker tracker;
     MouseMotionListener mouse;
@@ -86,16 +86,19 @@ public class MainPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(!isPaused) {
+            board = Conway.updateGrid(board);
             if(tracking){
+                iteration++;
+                if(iteration > 300){
+                    DataGraph.baseTime++;  //This allows for the data tracking graph to have a dynamic x axis label
+                }
                 tracker.addDataPoint(board);
                 //System.out.println("Tracked another point: " + tracker.chain.lastElement());
             }
-            board = Conway.updateGrid(board);
-            refresh++;
-            //System.out.println("Updated! Time #" + refresh);
             repaint();
         }
     }
+
 
     public void pause(){
         isPaused = true;
@@ -110,6 +113,8 @@ public class MainPanel extends JPanel implements ActionListener {
 
     public void startTracking(){
         tracker.resetData();
+        iteration = 0;
+        DataGraph.baseTime = 0;
         tracking = true;
     }
     public void endTracking(){tracking = false;}

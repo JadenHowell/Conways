@@ -14,22 +14,28 @@ import javax.swing.*;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.List;
 
-public class DataGraph extends JFrame{
+
+public class DataGraph extends JFrame implements ActionListener {
+    final int FRAMERATE = MainPanel.FRAMERATE;
+    static int baseTime = 0;
+    JFreeChart chart;
 
     public DataGraph() {
         initUI();
+        new Timer(FRAMERATE, this).start(); //This updates the graph every FRAMERATE milliseconds
     }
 
     private void initUI() {
-
         XYDataset dataset = createDataset();
-        JFreeChart chart = createChart(dataset);
+        chart = createChart(dataset);
 
         ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        //chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         chartPanel.setBackground(Color.white);
         add(chartPanel);
         URL iconURL = getClass().getResource("res/conwayIcon.png");
@@ -46,7 +52,7 @@ public class DataGraph extends JFrame{
         var series = new XYSeries("Cells");
         List<Integer> data = DataTracker.getInstance().getData();
         for(int i = 0; i < data.size(); i ++){
-            series.add(i, data.get(i));
+            series.add(i + baseTime, data.get(i));
         }
 
         var dataset = new XYSeriesCollection();
@@ -58,7 +64,7 @@ public class DataGraph extends JFrame{
     private JFreeChart createChart(XYDataset dataset) {
 
         JFreeChart chart = ChartFactory.createXYLineChart(
-                "Cells alive per iteration",
+                "Population Size over time",
                 "Time",
                 "Num Cells",
                 dataset,
@@ -93,4 +99,8 @@ public class DataGraph extends JFrame{
         return chart;
     }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        chart.getXYPlot().setDataset(createDataset()); //changes the dataset by recalculating it, allows for more fine tuned tracking.
+    }
 }

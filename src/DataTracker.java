@@ -4,6 +4,7 @@ public class DataTracker {
 
     static Vector<Integer> chain;
     private static DataTracker instance;
+    final int maxData = 300;
 
     public static DataTracker getInstance(){
         if(instance == null){
@@ -29,6 +30,9 @@ public class DataTracker {
 
     public void addDataPoint(boolean[][] grid){
         chain.add(countCells(grid));
+        if(chain.size() > maxData){
+            chain.remove(0);
+        }
     }
 
     public Vector<Integer> getData(){ return chain; }
