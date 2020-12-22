@@ -8,7 +8,6 @@ public class MouseActivity implements MouseListener, MouseMotionListener {
     int size;
     int latestX, latestY;
     boolean toValue;
-    //TODO: make the mouse decide to make cells alive or dead based off the opposite value of originally clicked cell
 
     public MouseActivity(MainPanel panel){
         this.panel = panel;
@@ -27,7 +26,7 @@ public class MouseActivity implements MouseListener, MouseMotionListener {
         latestY = y;
 
         if(x < panel.board.length && x >= 0 && y < panel.board[0].length && y >=0) {
-            panel.board[x][y] = !panel.board[x][y]; //Switch the state of the cell dragged on
+            panel.board[x][y] = toValue; //Switch the state of the cell dragged on
             panel.repaint();
         }
     }
@@ -37,14 +36,12 @@ public class MouseActivity implements MouseListener, MouseMotionListener {
         int x = e.getX()/size;
         int y = e.getY()/size;
 
-        if (latestX == x && latestY == y) //This should make sure you can't flicker one square by moving a fraction of a centimeter
-            return;
-
         latestX = x;
         latestY = y;
 
         if(x < panel.board.length && x >= 0 && y < panel.board[0].length && y >=0) {
             panel.board[x][y] = !panel.board[x][y]; //Switch the state of the cell dragged on
+            toValue = panel.board[x][y];
             panel.repaint();
         }
     }
